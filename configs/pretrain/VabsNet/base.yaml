@@ -1,0 +1,38 @@
+output_dir: ~/scratch/torchglycan_output/
+
+dataset:
+  class: GlycanPretrain
+  path: ~/scratch/glycan-datasets/
+  view: bi
+  unit_feature: default
+  link_feature: default
+  atom_feature: symbol
+  bond_feature: symbol
+
+task:
+  class: SMPC
+  mask_rate: 0.3
+  num_mlp_layer: 2
+  model:
+    class: VabsNet
+    num_unit: 210
+    hidden_dim: 128
+    edge_dim: 88
+    num_layers: 4
+    num_heads: 8
+    concat_hidden: True
+    readout: sum
+
+optimizer:
+  class: Adam
+  lr: 5.0e-4
+  weight_decay: 0.001
+
+engine:
+  gpus: {{ gpus }}
+  batch_size: 256
+
+train:
+  num_epoch: 50
+
+save_path: path/to/ckpt/

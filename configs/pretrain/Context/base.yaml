@@ -1,0 +1,40 @@
+output_dir: ~/scratch/torchglycan_output/
+
+dataset:
+  class: GlycanPretrain
+  path: ~/scratch/glycan-datasets/
+  view: atom-glycan
+  unit_feature: default
+  link_feature: default
+  atom_feature: symbol
+  bond_feature: symbol
+
+task:
+  class: HeteroContextPrediction
+  r1: 1
+  k: 3
+  r2: 4
+  model:
+    class: GlycanAA
+    num_unit: 210
+    num_relation: 89
+    input_dim: 128
+    hidden_dims: [128, 128, 128]
+    concat_hidden: True
+    batch_norm: True
+    activation: gelu
+    readout: dual
+
+optimizer:
+  class: Adam
+  lr: 5.0e-4
+  weight_decay: 0.001
+
+engine:
+  gpus: {{ gpus }}
+  batch_size: 256
+
+train:
+  num_epoch: 50
+
+save_path: ~/scratch/ckpt/rebuttal_context/
