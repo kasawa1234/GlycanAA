@@ -79,7 +79,7 @@ python -m torch.distributed.launch --nproc_per_node=4 scripts/run_single.py \
 
 ## License
 
-This codebase is released under the Apache License 2.0 as in the [LICENSE](https://github.com/GlycanML/GlycanML/blob/main/LICENSE) file.
+This codebase is released under the Apache License 2.0 as in the [LICENSE](https://github.com/kasawa1234/GlycanAA/blob/main/LICENSE) file.
 
 ## Citation
 
