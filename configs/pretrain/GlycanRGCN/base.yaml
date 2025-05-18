@@ -32,4 +32,4 @@ engine:
 train:
   num_epoch: 50
 
-save_path: ~/scratch/ckpt/rebuttal_RGCN_0.3/
+save_path: path/to/ckpt/

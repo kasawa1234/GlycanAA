@@ -45,6 +45,7 @@ class GlycanGCN(models.GCN):
         self.embedding = nn.Embedding(num_unit, input_dim)
         if readout == "dual":
             self.readout_ext = layers.MaxReadout()
+            self.node_output_dim = self.output_dim
             self.output_dim = self.output_dim * 2
 
     def forward(self, graph, input, all_loss=None, metric=None):
@@ -134,6 +135,7 @@ class GlycanGAT(models.GAT):
         self.embedding = nn.Embedding(num_unit, input_dim)
         if readout == "dual":
             self.readout_ext = layers.MaxReadout()
+            self.node_output_dim = self.output_dim
             self.output_dim = self.output_dim * 2
 
     def forward(self, graph, input, all_loss=None, metric=None):
@@ -179,6 +181,7 @@ class GlycanGIN(models.GIN):
         self.embedding = nn.Embedding(num_unit, input_dim)
         if readout == "dual":
             self.readout_ext = layers.MaxReadout()
+            self.node_output_dim = self.output_dim
             self.output_dim = self.output_dim * 2
 
     def forward(self, graph, input, all_loss=None, metric=None):
@@ -222,6 +225,7 @@ class GlycanCompGCN(nn.Module, core.Configurable):
             self.readout = layers.MaxReadout()
         elif readout == "dual":
             self.readout1, self.readout2 = layers.MeanReadout(), layers.MaxReadout()
+            self.node_output_dim = self.output_dim
             self.output_dim = self.output_dim * 2
         else:
             raise ValueError("Unknown readout `%s`" % readout)
@@ -517,6 +521,7 @@ class ProNet(nn.Module, core.Configurable):
         elif readout == "dual":
             self.readout = layers.MeanReadout()
             self.readout_ext = layers.MaxReadout()
+            self.node_output_dim = self.output_dim
             self.output_dim = self.output_dim * 2
         else:
             raise ValueError("Unknown readout `%s`" % readout)

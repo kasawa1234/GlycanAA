@@ -4,11 +4,11 @@ import pprint
 
 import torch
 
-from torchdrug import core, tasks
+from torchdrug import core, models, tasks, datasets, utils
 from torchdrug.utils import comm
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from module import util
+from module import custom_data, custom_datasets, custom_models, custom_tasks, util
 
 
 def save(solver, path):

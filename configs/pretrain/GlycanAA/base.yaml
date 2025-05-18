@@ -37,4 +37,4 @@ engine:
 train:
   num_epoch: 50
 
-save_path: ~/scratch/ckpt/specific_folder/
+save_path: path/to/ckpt/

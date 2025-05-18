@@ -46,6 +46,7 @@ class GlycanAA(nn.Module, core.Configurable):
         elif readout == "dual":
             self.readout = layers.MeanReadout()
             self.readout_ext = layers.MaxReadout()
+            self.node_output_dim = self.output_dim
             self.output_dim = self.output_dim * 2
         else:
             raise ValueError("Unknown readout `%s`" % readout)
@@ -160,6 +161,7 @@ class GlycanAA_WP(nn.Module, core.Configurable):
         elif readout == "dual":
             self.readout = layers.MeanReadout()
             self.readout_ext = layers.MaxReadout()
+            self.node_output_dim = self.output_dim
             self.output_dim = self.output_dim * 2
         else:
             raise ValueError("Unknown readout `%s`" % readout)

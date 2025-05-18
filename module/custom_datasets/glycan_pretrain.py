@@ -25,8 +25,7 @@ class GlycanPretrainDataset(torch_data.Dataset, core.Configurable):
 
     Statistics: 40,781
     """
-    url = "https://torchglycan.s3.us-east-2.amazonaws.com/pretrain/unlabeled_glycan.csv"
-    md5 = "814b372d72c9931d4d5cf2c3104d8238"
+    url = "https://torchglycan.s3.us-east-2.amazonaws.com/pretrain/glycan_pretrain.csv"
     target_fields = []
 
     def __init__(self, path, view, verbose=1, **kwargs):
@@ -37,14 +36,14 @@ class GlycanPretrainDataset(torch_data.Dataset, core.Configurable):
         self.path = path
         self.csv_file = os.path.join(path, "glycan_pretrain.csv")
         if not os.path.exists(self.csv_file):
-            self.csv_file = utils.download(self.url, path, md5=self.md5)
+            self.csv_file = utils.download(self.url, path)
         self.view = view
 
         if self.view not in {'glycan', 'atom-glycan', 'bi'}:
             raise ValueError(f"Expect [\'glycan\', \'atom-glycan\', \'bi\'] in pre-training phase, but found {view}")
 
         self.load_csv(self.csv_file, iupac_field="IUPAC Condensed", target_fields=self.target_fields,
-                      valid_field='valid_final', verbose=verbose, **kwargs)
+                      verbose=verbose, **kwargs)
 
     def __len__(self):
         return len(self.data)
@@ -94,7 +93,7 @@ class GlycanPretrainDataset(torch_data.Dataset, core.Configurable):
             except KeyError:
                 continue
 
-    def load_csv(self, csv_file, iupac_field="IUPAC Condensed", valid_field=None, target_fields=None, verbose=0, **kwargs):
+    def load_csv(self, csv_file, iupac_field="IUPAC Condensed", target_fields=None, verbose=0, **kwargs):
         """
         Load the dataset from a CSV file.
 
@@ -102,7 +101,6 @@ class GlycanPretrainDataset(torch_data.Dataset, core.Configurable):
             csv_file (str): file name
             iupac_field (str, optional): name of the iupac condensed column in the table.
                 Use ``None`` if there is no iupac column.
-            valid_field (str, optional): name of the valid column in the table, recommend using ``valid_final``. (compulsory when view == atom-glycan)
             target_fields (list of str, optional): name of target columns in the table.
                 Default is all columns other than the iupac column.
             verbose (int, optional): output verbose level
@@ -120,17 +118,10 @@ class GlycanPretrainDataset(torch_data.Dataset, core.Configurable):
             targets = defaultdict(list)
             index_of_iupac_condensed = header.index(iupac_field)
 
-            if valid_field not in ['valid', 'valid_with_question', 'valid_vocab', 'valid_no_leak', 'valid_final']:
-                raise ValueError(f"Valid field {valid_field} not support, please choose from \
-                                 [\'valid\', \'valid_with_question\', \'valid_vocab\', \'valid_no_leak\', \'valid_final\'].")
-            index_of_valid = header.index(valid_field)
-
             for values in reader:
                 iupac_condensed = values[index_of_iupac_condensed].strip()
                 
                 if not any(iupac_condensed):
-                    continue
-                if values[index_of_valid] != '1':
                     continue
 
                 if iupac_condensed is not None:

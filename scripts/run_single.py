@@ -9,11 +9,11 @@ import shutil
 import torch
 from torch.optim import lr_scheduler
 
-from torchdrug import core
+from torchdrug import core, datasets, layers, models, tasks, transforms
 from torchdrug.utils import comm
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from module import util
+from module import custom_data, custom_datasets, custom_models, custom_tasks, util
 
 
 def lower_better(metric, metric_list=["root mean squared error", "mean absolute error"]):
