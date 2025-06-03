@@ -86,5 +86,10 @@ This codebase is released under the Apache License 2.0 as in the [LICENSE](https
 If you find this codebase helpful in your research, please cite the following paper.
 
 ```
-to be added
+@article{xu2024glycanaa,
+  title={Modeling All-Atom Glycan Structures via Hierarchical Message Passing and Multi-Scale Pre-training}, 
+  author={Minghao Xu and Jiaze Song and Keming Wu and Xiangxin Zhou and Bin Cui and Wentao Zhang},
+  journal={arXiv preprint arXiv:2506.01376},
+  year={2025},
+}
 ```
